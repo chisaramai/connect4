@@ -1,0 +1,134 @@
+
+==================== FINAL INTERFACE ====================
+2016-10-24 02:34:56.852558 UTC
+
+interface connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 8001
+  interface hash: 407e9ebfc0ed4f3ae9c74062585270db
+  ABI hash: 23176611f78e0bfedc6bd2e7545c0982
+  export-list hash: 1abee6de36fb1f5cfb6bd830ec01e212
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: b159a15c55fa7c6870cb2eb79bbae5a5
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Lib.showGrid
+module dependencies:
+package dependencies: base-4.9.0.0* ghc-prim-0.5.0.0
+                      integer-gmp-1.0.0.1
+orphans: base-4.9.0.0:GHC.Base base-4.9.0.0:GHC.Float
+family instance modules: base-4.9.0.0:Control.Applicative
+                         base-4.9.0.0:Data.Either base-4.9.0.0:Data.Functor.Const
+                         base-4.9.0.0:Data.Monoid base-4.9.0.0:Data.Type.Equality
+                         base-4.9.0.0:GHC.Generics base-4.9.0.0:GHC.IO.Exception
+                         base-4.9.0.0:GHC.TypeLits
+import  -/  base-4.9.0.0:Data.List 49b86831b79b49ce5d4d9416ecba61df
+import  -/  base-4.9.0.0:Data.OldList 0058409f994fb13ae0616e3f1e5b4dae
+import  -/  base-4.9.0.0:GHC.Base 8ed3be81c0707b322f975a84ae1bb816
+import  -/  base-4.9.0.0:GHC.List 13d2451194c1c6e53b4f4f07947736dd
+import  -/  base-4.9.0.0:Prelude b9bddb97799837fe67a8d00939a5b6c3
+import  -/  base-4.9.0.0:System.Environment ee0914a962f5508d0fd404c89ee4999b
+import  -/  base-4.9.0.0:System.IO eb1d40aa793a4047069a5023f2ebcfe3
+ba7abff4b36cc4114f7d9c0b86e5aa72
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module Lib.$trModule2 Lib.$trModule1) -}
+af70d3649cdf93b4cff1bcdeb92d12c8
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "Lib"#) -}
+3d36709ee4c7dbf3289ce754d64761b7
+  $trModule2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS
+                   "connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF"#) -}
+dafaa8d14c3cbe33de48239676ddd60c
+  $wxs :: GHC.Prim.Int# -> [GHC.Types.Char]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
+c6ad951fcf14957f8ed9f0ddc3dd34ef
+  showGrid :: GHC.Types.Int -> GHC.Types.Int -> GHC.Types.IO ()
+  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><S,U>,
+     Unfolding: InlineRule (0, True, True)
+                Lib.showGrid1
+                  `cast`
+                (<GHC.Types.Int>_R
+                 ->_R <GHC.Types.Int>_R
+                 ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
+88944fd059f5f3a8476e66fd90fc9f9d
+  showGrid1 ::
+    GHC.Types.Int
+    -> GHC.Types.Int
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><S,U>,
+     Unfolding: (\ (column :: GHC.Types.Int)
+                   (row :: GHC.Types.Int)
+                   (eta :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 GHC.IO.Handle.Text.hPutStr2
+                   GHC.IO.Handle.FD.stdout
+                   (Data.OldList.intercalate_$spoly_go
+                      @ GHC.Types.Char
+                      Lib.showGrid5
+                      (Data.OldList.prependToAll
+                         @ [GHC.Types.Char]
+                         Lib.showGrid5
+                         (GHC.Types.:
+                            @ [GHC.Types.Char]
+                            Lib.showGrid4
+                            (case row of wild1 { GHC.Types.I# y ->
+                             case GHC.Prim.tagToEnum#
+                                    @ GHC.Types.Bool
+                                    (GHC.Prim.<# 0# y) of wild {
+                               GHC.Types.False -> Lib.showGrid2
+                               GHC.Types.True
+                               -> let {
+                                    x :: [GHC.Types.Char]
+                                    = case column of wild2 { GHC.Types.I# y1 ->
+                                      case GHC.Prim.tagToEnum#
+                                             @ GHC.Types.Bool
+                                             (GHC.Prim.<# 0# y1) of wild3 {
+                                        GHC.Types.False -> GHC.Types.[] @ GHC.Types.Char
+                                        GHC.Types.True -> Lib.$wxs y1 } }
+                                  } in
+                                  let {
+                                    lvl2 :: [[GHC.Types.Char]]
+                                    = GHC.Types.: @ [GHC.Types.Char] x Lib.showGrid2
+                                  } in
+                                  letrec {
+                                    $wxs1 :: GHC.Prim.Int# -> [[GHC.Types.Char]]
+                                      {- Arity: 1, Strictness: <S,1*U>, Inline: [0] -}
+                                    = \ (ww :: GHC.Prim.Int#) ->
+                                      case ww of ds1 {
+                                        DEFAULT
+                                        -> GHC.Types.:
+                                             @ [GHC.Types.Char]
+                                             x
+                                             ($wxs1 (GHC.Prim.-# ds1 1#))
+                                        1# -> lvl2 }
+                                  } in
+                                  $wxs1 y } }))))
+                   GHC.Types.True
+                   eta) -}
+4b2e6e939586c794071d6db6f4da9a19
+  showGrid2 :: [[GHC.Types.Char]]
+  {- Unfolding: (GHC.Types.:
+                   @ [GHC.Types.Char]
+                   Lib.showGrid3
+                   (GHC.Types.[] @ [GHC.Types.Char])) -}
+51c41f3bf2f694381172ac08ce07b954
+  showGrid3 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "01234"#) -}
+3af95eabae64b7da2c4c593e387bc5a6
+  showGrid4 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "-----"#) -}
+978a8d303b9f52fdd1ddb19ad6042d75
+  showGrid5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "\n"#) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+
