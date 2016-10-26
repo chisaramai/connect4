@@ -11,7 +11,10 @@ main = do
       hSetBuffering stdout NoBuffering
       args <- getArgs :: IO [String]
       let round = zip [1..] (nub (args !! 0))
-      showGrid (makeGrid (read (args !! 1) :: Int) (read (args !! 2) :: Int))
+      let oldGrid = makeGrid (read (args !! 1) :: Int) (read (args !! 2) :: Int)
+      showGrid (oldGrid)
       choice <- getChoice
       putStrLn ("your choice: " ++ choice)
+      let newGrid = dropToken 'O' (read choice :: Int) oldGrid
+      showGrid (newGrid)
       main
