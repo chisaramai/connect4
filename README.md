@@ -15,11 +15,13 @@ The game was first sold under the famous Connect Four trademark by Milton Bradle
 
 ## Usage
 
-start the application line that:
+start the application like that:
 
 ```console
 connect4 XO 4 5
 ```
+start playing with two players ('X' and 'O') 
+with a 4 row and 5 column grid
 
 ```console
 .....
