@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2016-10-26 23:41:06.082535 UTC
+2016-10-27 18:46:07.916431 UTC
 
 interface main@main:Main 8001
-  interface hash: a7a79cf40102f1c8bdeec9b9cf0fe2fb
-  ABI hash: be870cdb9c496adde3aaf3574114a5a0
+  interface hash: bb60ec6fe2c092dd804393a44085d9f2
+  ABI hash: e9ec0960c3cb2fd827abef57465d50bc
   export-list hash: b92e9b9afa8d8ed379e11a24aeb68237
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 45aebc7f20771f348c9cf93c597a41e6
@@ -38,7 +38,7 @@ import  -/  base-4.9.0.0:System.Exit 4df7be78e54bbe200276120bd44e7e2a
 import  -/  base-4.9.0.0:System.IO eb1d40aa793a4047069a5023f2ebcfe3
 import  -/  base-4.9.0.0:Text.Read 9c1be14f7e5eac8b18bcb566c5763677
 import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Game f805ce0c7743688fb9086697db186855
-import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 5394ecf7cef126423c9a6052894208db
+import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 1aed59d7a5c9fee0166297d8228448aa
 import  -/  ghc-prim-0.5.0.0:GHC.Types 7378e41b7749213c8c88ceb6b0665d4c
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module
@@ -52,20 +52,107 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-39c847602fbbe6995d55f94a549d1f14
+5ad3b09045d09105a108bb882f32eb37
   main :: GHC.Types.IO b
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1
                   `cast`
                 (forall (b :: <*>_N). Sym (GHC.Types.N:IO[0] <b>_R)) -}
-f669293bf485a5dea76f499c39bf17cc
+582e29640e92e8ecb5e19f7eaa32d92b
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, b #)
-  {- Arity: 1, Strictness: <S,U> -}
-8327abe4c66cb60efb7820231d69e097
-  main2 ::
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ @ b
+                   (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 case GHC.IO.Handle.hSetBuffering1
+                        GHC.IO.Handle.FD.stdout
+                        GHC.IO.Handle.Types.NoBuffering
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 case System.Environment.getArgs1 ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 Lib.playWith1
+                   @ b
+                   (Main.main_go
+                      1#
+                      (Data.OldList.nubBy
+                         @ GHC.Types.Char
+                         GHC.Classes.eqChar
+                         (GHC.List.$w!! @ GHC.Base.String ipv3 0#)))
+                   (case Text.Read.readEither6
+                           @ GHC.Types.Int
+                           (Text.ParserCombinators.ReadP.run
+                              @ GHC.Types.Int
+                              Main.main2
+                              (GHC.List.$w!! @ GHC.Base.String ipv3 2#)) of wild {
+                      []
+                      -> case GHC.Err.error
+                                @ 'GHC.Types.PtrRepLifted
+                                @ GHC.Types.Int
+                                GHC.Err.errorWithoutStackTrace_wild1
+                                  `cast`
+                                (Sym (GHC.Classes.N:IP[0]
+                                          <"callStack">_N <GHC.Stack.Types.CallStack>_N))
+                                Text.Read.readEither4
+                         ret_ty [[GHC.Types.Char]]
+                         of {}
+                      : x ds
+                      -> case ds of wild1 {
+                           []
+                           -> case x of ww { GHC.Types.I# ww1 ->
+                              Game.$wmakeGrid
+                                (case Text.Read.readEither6
+                                        @ GHC.Types.Int
+                                        (Text.ParserCombinators.ReadP.run
+                                           @ GHC.Types.Int
+                                           Main.main2
+                                           (GHC.List.$w!! @ GHC.Base.String ipv3 1#)) of wild2 {
+                                   []
+                                   -> GHC.Err.error
+                                        @ 'GHC.Types.PtrRepLifted
+                                        @ GHC.Types.Int
+                                        GHC.Err.errorWithoutStackTrace_wild1
+                                          `cast`
+                                        (Sym (GHC.Classes.N:IP[0]
+                                                  <"callStack">_N <GHC.Stack.Types.CallStack>_N))
+                                        Text.Read.readEither4
+                                   : x1 ds3
+                                   -> case ds3 of wild3 {
+                                        [] -> x1
+                                        : ipv4 ipv5
+                                        -> GHC.Err.error
+                                             @ 'GHC.Types.PtrRepLifted
+                                             @ GHC.Types.Int
+                                             GHC.Err.errorWithoutStackTrace_wild1
+                                               `cast`
+                                             (Sym (GHC.Classes.N:IP[0]
+                                                       <"callStack">_N
+                                                       <GHC.Stack.Types.CallStack>_N))
+                                             Text.Read.readEither2 } })
+                                ww1 }
+                           : ipv4 ipv5
+                           -> case GHC.Err.error
+                                     @ 'GHC.Types.PtrRepLifted
+                                     @ GHC.Types.Int
+                                     GHC.Err.errorWithoutStackTrace_wild1
+                                       `cast`
+                                     (Sym (GHC.Classes.N:IP[0]
+                                               <"callStack">_N <GHC.Stack.Types.CallStack>_N))
+                                     Text.Read.readEither2
+                              ret_ty [[GHC.Types.Char]]
+                              of {} } })
+                   ipv2 } }) -}
+c356bd6676f7c263267afb1e9ca53b75
+  main2 :: Text.ParserCombinators.ReadP.P GHC.Types.Int
+  {- Unfolding: ((GHC.Read.$fReadInt3
+                    GHC.Read.$fReadInt_$sconvertInt
+                    Text.ParserCombinators.ReadPrec.minPrec)
+                   `cast`
+                 (Text.ParserCombinators.ReadP.N:ReadP[0] <GHC.Types.Int>_R)
+                   @ GHC.Types.Int
+                   (Text.Read.readEither5 @ GHC.Types.Int)) -}
+64596f431396e6ecaea237ecdec65021
+  main3 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Prim.Any #)
   {- Arity: 1,
@@ -74,6 +161,11 @@ f669293bf485a5dea76f499c39bf17cc
                    (Main.main1 @ GHC.Prim.Any)
                      `cast`
                    (Sym (GHC.Types.N:IO[0] <GHC.Prim.Any>_R))) -}
+d459a083427a14b38c7d8e4a2d96d2d6
+  main_go ::
+    GHC.Prim.Int#
+    -> [GHC.Types.Char] -> [(GHC.Types.Int, GHC.Types.Char)]
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U> -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:
