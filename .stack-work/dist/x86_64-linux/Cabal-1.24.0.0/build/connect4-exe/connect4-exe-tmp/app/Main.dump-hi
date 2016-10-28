@@ -1,9 +1,9 @@
 
 ==================== FINAL INTERFACE ====================
-2016-10-28 15:21:23.54964 UTC
+2016-10-28 15:35:52.831033 UTC
 
 interface main@main:Main 8001
-  interface hash: 0922438181acbfde0dbfebd1f1a9f8c0
+  interface hash: 724278965abbce1c18c2a500fd6520eb
   ABI hash: e6b12aedfc9d33549790f01f9d5b6105
   export-list hash: b92e9b9afa8d8ed379e11a24aeb68237
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
@@ -38,7 +38,7 @@ import  -/  base-4.9.0.0:System.Exit 4df7be78e54bbe200276120bd44e7e2a
 import  -/  base-4.9.0.0:System.IO eb1d40aa793a4047069a5023f2ebcfe3
 import  -/  base-4.9.0.0:Text.Read 9c1be14f7e5eac8b18bcb566c5763677
 import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Game f805ce0c7743688fb9086697db186855
-import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib cf687866252b3c0a2f333e8c68bef95b
+import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib b0fd1ad5bcddc1f5a4f708e4613c0a32
 import  -/  ghc-prim-0.5.0.0:GHC.Types 7378e41b7749213c8c88ceb6b0665d4c
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module

@@ -1,6 +1,6 @@
 module Lib
     ( showGrid
-    , getChoice
+    , getChoiceOf
     , dropToken
     , playWith
     ) where
@@ -16,16 +16,16 @@ showGrid grid = do
       putStrLn (intercalate "\n" ((transpose grid) -- show dots for every position in the grid
               ++ [filter isAlphaNum (unwords (map show [1..(length grid)]))] ++ [replicate 16 '-']))  -- show column numbers
 
---getChoice
-getChoice from to = do
+--getChoiceOf :: Int -> Int -> Int
+getChoiceOf token from to = do
             hSetBuffering stdout NoBuffering
             putStr "Choose column: "
-            choice <- getLine :: IO String -- no parse error
+            choice <- getLine :: IO String
             if ((not(null choice)) && (isDigit (head choice)) && (from <= (read choice :: Int)) && (read choice :: Int) <= to)
                 then
-                return choice
+                return (read choice :: Int)
                 else
-                getChoice from to
+                getChoiceOf token from to
 
 makeGrid :: Int -> Int -> [[Char]]
 makeGrid m n       =  replicate m (replicate n '.') -- ^ sets up a m * n grid, filled with points at each position
@@ -44,10 +44,9 @@ dropToken token columnNumber grid =
             
 playWith :: [(Int,Char)] -> [[Char]] -> IO b
 playWith  round grid = do
-          choice <- getChoice 1 (length grid)
-          putStrLn ("your choice: " ++ choice)
           let currentToken = head round
-              changedGrid = (dropToken (snd currentToken) (read choice :: Int) grid)
+          choice <- getChoiceOf currentToken 1 (length grid)
+          let changedGrid = (dropToken (snd currentToken) choice grid)
               changedRound = (tail round) ++ (currentToken:[])
           showGrid changedGrid
           playWith changedRound changedGrid

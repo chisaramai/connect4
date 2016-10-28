@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2016-10-28 15:23:15.409703 UTC
+2016-10-28 15:35:52.159987 UTC
 
 interface connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 8001
-  interface hash: 79c819ceccc7644ab75ecfce6b9a963e
-  ABI hash: cf687866252b3c0a2f333e8c68bef95b
-  export-list hash: 00dd879d6167d67267fa366ea81f15f8
+  interface hash: 7952e4bbb7c7f0faeefd35aaaab5de9c
+  ABI hash: b0fd1ad5bcddc1f5a4f708e4613c0a32
+  export-list hash: d9309a08fc109786edb972ca0adac253
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: b159a15c55fa7c6870cb2eb79bbae5a5
   sig of: Nothing
@@ -13,7 +13,7 @@ interface connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 8001
   where
 exports:
   Lib.dropToken
-  Lib.getChoice
+  Lib.getChoiceOf
   Lib.playWith
   Lib.showGrid
 module dependencies:
@@ -147,6 +147,13 @@ af70d3649cdf93b4cff1bcdeb92d12c8
                                      (GHC.Types.[] @ [GHC.Types.Char]))
                                   ipv1 } }
                    GHC.Types.True -> $j (GHC.Types.[] @ [GHC.Types.Char]) w1 }) -}
+18aaacda67ec52d20a60de185c45f295
+  $wgetChoiceOf ::
+    GHC.Types.Int
+    -> GHC.Types.Int
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Types.Int #)
+  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><S,U>, Inline: [0] -}
 420bc75b154b0b2eb279095ffcc2d268
   $wgo :: [GHC.Types.Char] -> GHC.Prim.Int# -> GHC.Prim.Int#
   {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>, Inline: [0] -}
@@ -164,23 +171,34 @@ af70d3649cdf93b4cff1bcdeb92d12c8
                    (w1 :: GHC.Types.Int)
                    (w2 :: [[GHC.Types.Char]]) ->
                  case w1 of ww { GHC.Types.I# ww1 -> Lib.$wdropToken w ww1 w2 }) -}
-ed558c84dd7a2a10e51315a61986384e
-  getChoice ::
-    GHC.Types.Int -> GHC.Types.Int -> GHC.Types.IO GHC.Base.String
-  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><S,U>,
+33a11d565a310b0bbe963f00c332321d
+  getChoiceOf ::
+    t -> GHC.Types.Int -> GHC.Types.Int -> GHC.Types.IO GHC.Types.Int
+  {- Arity: 4, Strictness: <L,A><L,1*U(U)><L,1*U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
-                Lib.getChoice1
+                Lib.getChoiceOf1
                   `cast`
-                (<GHC.Types.Int>_R
+                (forall (t :: <*>_N).
+                 <t>_R
                  ->_R <GHC.Types.Int>_R
-                 ->_R Sym (GHC.Types.N:IO[0] <GHC.Base.String>_R)) -}
-91f2ff70c11e6730e50222629b08d2b0
-  getChoice1 ::
-    GHC.Types.Int
+                 ->_R <GHC.Types.Int>_R
+                 ->_R Sym (GHC.Types.N:IO[0] <GHC.Types.Int>_R)) -}
+a5be22ccb60671b925d0b3462feea8b3
+  getChoiceOf1 ::
+    t
+    -> GHC.Types.Int
     -> GHC.Types.Int
     -> GHC.Prim.State# GHC.Prim.RealWorld
-    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
-  {- Arity: 3, Strictness: <L,1*U(U)><L,1*U(U)><S,U> -}
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Types.Int #)
+  {- Arity: 4, Strictness: <L,A><L,1*U(U)><L,1*U(U)><S,U>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (4, True, True)
+                (\ @ t
+                   (w :: t)
+                   (w1 :: GHC.Types.Int)
+                   (w2 :: GHC.Types.Int)
+                   (w3 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 Lib.$wgetChoiceOf @ t w1 w2 w3) -}
 69075f6cea32ecdc1ef8a6d927c9068c
   playWith ::
     [(GHC.Types.Int, GHC.Types.Char)]
