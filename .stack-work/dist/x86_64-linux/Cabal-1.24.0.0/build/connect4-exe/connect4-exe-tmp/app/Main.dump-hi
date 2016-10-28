@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2016-10-27 18:46:07.916431 UTC
+2016-10-28 15:21:23.54964 UTC
 
 interface main@main:Main 8001
-  interface hash: bb60ec6fe2c092dd804393a44085d9f2
-  ABI hash: e9ec0960c3cb2fd827abef57465d50bc
+  interface hash: 0922438181acbfde0dbfebd1f1a9f8c0
+  ABI hash: e6b12aedfc9d33549790f01f9d5b6105
   export-list hash: b92e9b9afa8d8ed379e11a24aeb68237
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 45aebc7f20771f348c9cf93c597a41e6
@@ -38,7 +38,7 @@ import  -/  base-4.9.0.0:System.Exit 4df7be78e54bbe200276120bd44e7e2a
 import  -/  base-4.9.0.0:System.IO eb1d40aa793a4047069a5023f2ebcfe3
 import  -/  base-4.9.0.0:Text.Read 9c1be14f7e5eac8b18bcb566c5763677
 import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Game f805ce0c7743688fb9086697db186855
-import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib 1aed59d7a5c9fee0166297d8228448aa
+import  -/  connect4-0.1.0.0@connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF:Lib cf687866252b3c0a2f333e8c68bef95b
 import  -/  ghc-prim-0.5.0.0:GHC.Types 7378e41b7749213c8c88ceb6b0665d4c
 d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule :: GHC.Types.Module
@@ -52,14 +52,14 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-5ad3b09045d09105a108bb882f32eb37
+0a4b1739546afe925d9e3bcad10d6b20
   main :: GHC.Types.IO b
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1
                   `cast`
                 (forall (b :: <*>_N). Sym (GHC.Types.N:IO[0] <b>_R)) -}
-582e29640e92e8ecb5e19f7eaa32d92b
+3b87dd6cd9b66a8a4095aa36539b2d07
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, b #)
@@ -151,7 +151,7 @@ c356bd6676f7c263267afb1e9ca53b75
                  (Text.ParserCombinators.ReadP.N:ReadP[0] <GHC.Types.Int>_R)
                    @ GHC.Types.Int
                    (Text.Read.readEither5 @ GHC.Types.Int)) -}
-64596f431396e6ecaea237ecdec65021
+ebc1a74632fe8be1e8180b5e3326a337
   main3 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Prim.Any #)
