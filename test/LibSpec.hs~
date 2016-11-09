@@ -1,0 +1,15 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+module LibSpec (spec) where
+
+import           Lib             (scan)
+import           Test.Hspec
+import           Test.QuickCheck
+
+        
+spec :: Spec
+spec = do
+  
+    describe "scan" $ do
+        it "scans \"....XXOOOOO\"" $
+            scan "....XXOOOOO" `shouldBe` (5,'O')
+        

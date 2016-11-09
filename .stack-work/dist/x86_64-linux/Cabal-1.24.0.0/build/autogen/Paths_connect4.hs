@@ -26,12 +26,12 @@ catchIO :: IO a -> (Exception.IOException -> IO a) -> IO a
 catchIO = Exception.catch
 
 version :: Version
-version = Version [0,1,0,0] []
+version = Version [0,1,0,1] []
 bindir, libdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/bin"
-libdir     = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/lib/x86_64-linux-ghc-8.0.1/connect4-0.1.0.0-72dbdpWjjZ73fXhjRJQRqF"
-datadir    = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/share/x86_64-linux-ghc-8.0.1/connect4-0.1.0.0"
+libdir     = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/lib/x86_64-linux-ghc-8.0.1/connect4-0.1.0.1-WKoGruS9yd1l9XgtChq8q"
+datadir    = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/share/x86_64-linux-ghc-8.0.1/connect4-0.1.0.1"
 libexecdir = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/libexec"
 sysconfdir = "/home/sarika/Desktop/edu/hm/fun/connect4/.stack-work/install/x86_64-linux/lts-7.3/8.0.1/etc"
 
