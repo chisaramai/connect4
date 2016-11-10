@@ -28,6 +28,8 @@ import Types
 import System.Random
 
 
+
+
 {- | 720 different themes
    | you can chose one from 0 up to 719
 -}
@@ -37,6 +39,10 @@ theme x = themes !! x
                    themes = permutations colors
 
 
+
+{- | interaction with the user/player of this game
+   | he needs to enter an number beween 1 and n
+-}
 getChoiceOf :: Grid -> Player -> Int -> Int -> IO Int
 getChoiceOf    grid    player    from   to  =
   
@@ -54,8 +60,10 @@ getChoiceOf    grid    player    from   to  =
                                     else getChoiceOf grid player from to -- loop back
 
 
+
 mkGrid :: Int -> Int -> Grid
 mkGrid    m      n                          =  replicate n (replicate m '.') -- sets up a m * n grid, filled with points at each position
+
 
 
 dropToken :: Char -> Int       -> Grid -> Grid
@@ -69,6 +77,7 @@ dropToken    token   columnNumber grid =
                         gridPieces        = splitAt columnNumber grid
                         newGrid           = init (fst gridPieces) ++ [changedColumn] ++ snd gridPieces
                     in newGrid
+
 
             
 playWith :: Game -> IO ()
