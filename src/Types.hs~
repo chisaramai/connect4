@@ -1,8 +1,0 @@
-module Types
-       where
-
-import System.Console.ANSI
-
-data Player = Player Char Color
-         deriving (Show)
-

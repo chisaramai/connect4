@@ -1,5 +1,0 @@
-module Unstable where
-
-showGrid :: [String] -> IO()
-showColorizedGrid grid = putStrLn (intercalate "\n" (transpose grid
-              ++ [filter isAlphaNum (unwords (map show [1..(length grid)]))] ++ [replicate 16 '-']))  -- show column numbers
