@@ -28,15 +28,21 @@ import Types
 import System.Random
 
 
+
+
 {- | 720 different themes
    | you can chose one from 0 up to 719
 -}
 theme :: Int -> [Color]
 theme x = themes !! x
              where colors = [ Yellow, Cyan, Blue, Green, Magenta, Red ]
-                   themes = permutations colors
+                   themes =  nub (permutations colors)
 
 
+
+{- | interaction with the user/player of this game
+   | he needs to enter a number beween 1 and n
+-}
 getChoiceOf :: Grid -> Player -> Int -> Int -> IO Int
 getChoiceOf    grid    player    from   to  =
   
@@ -54,23 +60,37 @@ getChoiceOf    grid    player    from   to  =
                                     else getChoiceOf grid player from to -- loop back
 
 
+{- |
+-}
 mkGrid :: Int -> Int -> Grid
 mkGrid    m      n                          =  replicate n (replicate m '.') -- sets up a m * n grid, filled with points at each position
 
 
+{- | dropToken
+   |    takes a
+-}
 dropToken :: Char -> Int       -> Grid -> Grid
-dropToken    token   columnNumber grid =
+dropToken    token   choice grid =
   
-                    let columnIndex       = columnNumber - 1 -- f.e. 1234 -> 0123
+                    let columnIndex       = choice - 1 -- f.e. 1234 -> 0123
                         originalColumn    = grid !! columnIndex -- extract the chosen column
                         emptyRows         = filter (== '.') originalColumn -- scan how many free rows are left in that column
                         columnPieces      = splitAt (length emptyRows) originalColumn -- so it will look like this: (["..."],["XO"])
-                        changedColumn     = init (fst columnPieces) ++ [token] ++ snd columnPieces -- insert the token at the end of the first List
-                        gridPieces        = splitAt columnNumber grid
-                        newGrid           = init (fst gridPieces) ++ [changedColumn] ++ snd gridPieces
+                        changedColumn     = init (fst columnPieces) ++ [token] ++ snd columnPieces -- insert the token at the end of the first list
+                        gridPieces        = splitAt choice grid
+                        newGrid           = init (fst gridPieces) ++ [changedColumn] ++ snd gridPieces -- form the new grid
                     in newGrid
 
-            
+
+
+{- | playWith is the main loop of the game
+   | when this loop ends the game ends
+   | takes a Game and creates a new Game in each loop while the game continues
+   | the game stops
+   |    if all positions in the grid are occupied
+   |    or
+   |    after calling the dropToken function, a player has connected a sequence long enough to win the game
+-}            
 playWith :: Game -> IO ()
 playWith    game                  =
 
@@ -98,7 +118,7 @@ playWith    game                  =
 
 
                                  
-{- | prints game over with winner
+{- | displays "Game over! and the winner of the game
 -}
 endGame :: Char -> Game -> IO()
 endGame    token   game  =
@@ -113,14 +133,14 @@ endGame    token   game  =
                               
                               
 {- | takes a set of token sequences and determines who has won the game
-   | by searching for the longest sequence (connected tokens)
-   | and prooving if it is long enough for winning the game
+   | by     searching for the longest sequence (connected tokens)
+   |    and prooving if it is long enough for winning the game
 -}
 findWinner :: Set.Set(Int,Char) -> Int -> Maybe Char
 findWinner    xs                   winSequ =
   
                  do
-                 let maxSequ = foldr (\(a,b) (c,d) -> if a > c then (a,b) else (c,d)) (0,'X') xs 
+                 let maxSequ = foldl (\(a,b) (c,d) -> if a > c then (a,b) else (c,d)) (0,'X') xs 
                  if fst maxSequ < winSequ
                       then Nothing
                       else Just (snd maxSequ)
@@ -130,7 +150,7 @@ findWinner    xs                   winSequ =
 {- | prints "Game over!" in color
 -}
 printGameOver =    do
-                   setSGR [SetConsoleIntensity BoldIntensity, SetColor Foreground Vivid Red]
+                   setSGR [SetConsoleIntensity BoldIntensity, SetColor Foreground Vivid Blue]
                    putStr "Game Over!"
                    setSGR []
 
@@ -146,9 +166,9 @@ concatGrid    grid = intercalate "\n" (transpose grid
 
                      
 {- | prints each Char of a String to the Console.
-   | if one of the Char's is in the player's List it is printed colorized
+   | if one of the Chars is in the player's List it is printed colorized
 -}                   
-printAllToken ::[Player] -> String -> IO()
+printAllToken :: [Player] -> String -> IO()
 printAllToken players = mapM_ (printToken players)
 
 

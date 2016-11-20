@@ -1,12 +1,12 @@
 
 ==================== FINAL INTERFACE ====================
-2016-11-09 22:05:21.304068 UTC
+2016-11-20 11:01:20.680937 UTC
 
-interface connect4-0.1.0.1-WKoGruS9yd1l9XgtChq8q:Lib 8001
-  interface hash: d69f3426b34e93fc00ac539b3c26b02c
-  ABI hash: 362c38c6f57b5c0d56229137f46565ed
-  export-list hash: 668cc78ce3e47d7b02d4f847b18765ec
-  orphan hash: 3155a53b882531a7dc59e33f42897bfe
+interface connect4-0.1.0.1-2fMdAgEIDS51w47GvFtft7:Lib 8001
+  interface hash: 15db9943f86b57cf83aae1ed6fa6939b
+  ABI hash: 8c5724a7ccbdbe53efa119d79b9a99fa
+  export-list hash: f34c80f3b600667664d7768f3041a5c6
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: b159a15c55fa7c6870cb2eb79bbae5a5
   sig of: Nothing
   used TH splices: False
@@ -17,18 +17,24 @@ exports:
   Lib.endGame
   Lib.findWinner
   Lib.getChoiceOf
-  Lib.makeGrid
+  Lib.mkGrid
   Lib.playWith
   Lib.printAllToken
   Lib.printToken
+  Lib.rollDice
   Lib.showGrid
-module dependencies: GridScan Unstable
+  Lib.theme
+module dependencies: GridScan Types
 package dependencies: ansi-terminal-0.6.2.3@ansi-terminal-0.6.2.3-448ipfN5j28Ha0AgPiJmdI
                       array-0.5.1.1@array-0.5.1.1 base-4.9.0.0*
                       containers-0.5.7.1@containers-0.5.7.1
                       deepseq-1.4.2.0@deepseq-1.4.2.0 ghc-prim-0.5.0.0
-                      integer-gmp-1.0.0.1
+                      integer-gmp-1.0.0.1 random-1.1@random-1.1-54KmMHXjttlERYcr1mvsAe*
+                      time-1.6.0.1@time-1.6.0.1
 orphans: base-4.9.0.0:GHC.Base base-4.9.0.0:GHC.Float
+         time-1.6.0.1@time-1.6.0.1:Data.Time.Calendar.Gregorian
+         time-1.6.0.1@time-1.6.0.1:Data.Time.Format.Parse
+         time-1.6.0.1@time-1.6.0.1:Data.Time.LocalTime.LocalTime
 family instance modules: base-4.9.0.0:Control.Applicative
                          base-4.9.0.0:Data.Complex base-4.9.0.0:Data.Either
                          base-4.9.0.0:Data.Functor.Const base-4.9.0.0:Data.Functor.Identity
@@ -61,102 +67,46 @@ import  -/  base-4.9.0.0:Prelude b9bddb97799837fe67a8d00939a5b6c3
 import  -/  base-4.9.0.0:System.Environment ee0914a962f5508d0fd404c89ee4999b
 import  -/  base-4.9.0.0:System.IO eb1d40aa793a4047069a5023f2ebcfe3
 import  -/  base-4.9.0.0:Text.Read 9c1be14f7e5eac8b18bcb566c5763677
-import  -/  GridScan 6344dc054d32786c5544882a2ac3f362
-  exports: 1cdea33cf5f85d8f26ebadcbf5d53563
-  scan 995d3460dd7fdf253726f4f9796ef57e
-import  -/  Unstable db2abef7a9a3f2b67d1ef3d36ac97649
-  exports: eec423906be9f19260d0d1b41f8fc578
+import  -/  GridScan 40f4ecd59bd4f25f9efe09d83684e068
+  exports: e9e873a635119bfe5bbd6c58336c914a
+  scan 418535b58624c8d72a5435b0a0be147b
+import  -/  Types 8e83e1c88a0296f6342caaab81b2b15f
+  exports: aa93b45a04b6bc8941a1182e57c5047f
+  Game a20bb6290573ac399a4c1ae356f6fa30
+  Game e19c99fc34502f0de2d229aef41b3024
+  Grid b0c1bcaa5709aad78e711871c6937026
+  Player de5b092781575bf8e61208884b600228
+  color f2aaa06067c805e64db99ab2fba13952
+  grid ab5f6ad2e43895b15c92d6748e064e5a
+  players 15b390a21f7bc006b400d46f6150479c
+  token abdc8236c9d2c9dbceaa5d4f1accce19
+  winBy 3708aa81492086d6b0a9b603bb904caf
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map 24b19ef74cea78e4c18332bed9f0491d
-import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base 1e8d61dcc59a1a983b27bab6fd6bdcaf
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Set 3ed2324fd1e757464a8ac2b636a64e5a
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Set.Base 7491ab24d955eec25fba8e0d89b657f1
 import  -/  ghc-prim-0.5.0.0:GHC.Classes 0bdf3d057a415ec1b84a7b1994efbe47
 import  -/  ghc-prim-0.5.0.0:GHC.Types 7378e41b7749213c8c88ceb6b0665d4c
-46ae754613a7f03356389027150d16d1
-  $sfromList ::
-    [(GHC.Types.Char, a)] -> Data.Map.Base.Map GHC.Types.Char a
-  {- Arity: 1, Strictness: <S,1*U>,
-     Unfolding: (\ @ a (ds :: [(GHC.Types.Char, a)]) ->
-                 case ds of wild {
-                   [] -> Data.Map.Base.Tip @ GHC.Types.Char @ a
-                   : ds1 ds2
-                   -> case ds1 of wild1 { (,) kx x ->
-                      case ds2 of wild2 {
-                        []
-                        -> case kx of dt { GHC.Types.C# ipv ->
-                           Data.Map.Base.Bin
-                             @ GHC.Types.Char
-                             @ a
-                             1#
-                             dt
-                             x
-                             (Data.Map.Base.Tip @ GHC.Types.Char @ a)
-                             (Data.Map.Base.Tip @ GHC.Types.Char @ a) }
-                        : ipv ipv1
-                        -> case ipv of wild3 { (,) ky ds3 ->
-                           case kx of wild4 { GHC.Types.C# c1 ->
-                           case ky of wild5 { GHC.Types.C# c2 ->
-                           case GHC.Prim.tagToEnum#
-                                  @ GHC.Types.Bool
-                                  (GHC.Prim.geChar# c1 c2) of wild6 {
-                             GHC.Types.False
-                             -> Lib.$wpoly_go1
-                                  @ a
-                                  1#
-                                  (Data.Map.Base.Bin
-                                     @ GHC.Types.Char
-                                     @ a
-                                     1#
-                                     wild4
-                                     x
-                                     (Data.Map.Base.Tip @ GHC.Types.Char @ a)
-                                     (Data.Map.Base.Tip @ GHC.Types.Char @ a))
-                                  wild2
-                             GHC.Types.True
-                             -> Lib.$sfromList1
-                                  @ a
-                                  (Data.Map.Base.Bin
-                                     @ GHC.Types.Char
-                                     @ a
-                                     1#
-                                     wild4
-                                     x
-                                     (Data.Map.Base.Tip @ GHC.Types.Char @ a)
-                                     (Data.Map.Base.Tip @ GHC.Types.Char @ a))
-                                  wild2 } } } } } } }) -}
-9130d6468459ff29437ead7278ea2f5b
-  $sfromList1 ::
-    Data.Map.Base.Map GHC.Types.Char a1
-    -> [(GHC.Types.Char, a1)] -> Data.Map.Base.Map GHC.Types.Char a1
-  {- Arity: 2, Strictness: <S,1*U><S,1*U> -}
-f4f48e2ed098ce1f8a028fc42369bc9d
+import  -/  random-1.1@random-1.1-54KmMHXjttlERYcr1mvsAe:System.Random 12e582ce6a18ca02c107789bb28c509c
+65e5ed73bbb9e27cfda8862f2329d405
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.Module Lib.$trModule2 Lib.$trModule1) -}
-94d62cf32331e0ecbdd1ab33c650c193
+0e773de65bfe538c0080b61645a6611a
   $trModule1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "Lib"#) -}
-3e963c23fe6a46f72a95a4063cb459d0
+6a194951dd6332e18f4f8c3d86aa5929
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
-                   "connect4-0.1.0.1-WKoGruS9yd1l9XgtChq8q"#) -}
-cb563a585057cfbbd11021c43fc70915
-  $w$sgo10 ::
-    GHC.Prim.Char#
-    -> a1
-    -> Data.Map.Base.Map GHC.Types.Char a1
-    -> Data.Map.Base.Map GHC.Types.Char a1
-  {- Arity: 3, Strictness: <L,U><L,U><S,1*U>, Inline: [0] -}
-02a081227bddf40c4fcf2649dc45d193
+                   "connect4-0.1.0.1-2fMdAgEIDS51w47GvFtft7"#) -}
+cb2926ba6b1d1e305c24b0ff0c63a662
   $wdropToken ::
-    GHC.Types.Char
-    -> GHC.Prim.Int# -> [GHC.Base.String] -> [[GHC.Types.Char]]
+    GHC.Types.Char -> GHC.Prim.Int# -> Types.Grid -> [[GHC.Types.Char]]
   {- Arity: 3, Strictness: <L,U><S,U><L,U>, Inline: [0],
      Unfolding: (\ (w :: GHC.Types.Char)
                    (ww :: GHC.Prim.Int#)
-                   (w1 :: [GHC.Base.String]) ->
+                   (w1 :: Types.Grid) ->
                  let {
                    $j :: [GHC.Base.String] -> [GHC.Base.String] -> [[GHC.Types.Char]]
                      {- Arity: 2, Strictness: <S,1*U><L,U> -}
@@ -238,76 +188,7 @@ cb563a585057cfbbd11021c43fc70915
                                      (GHC.Types.[] @ GHC.Base.String))
                                   ipv1 } }
                    GHC.Types.True -> $j (GHC.Types.[] @ GHC.Base.String) w1 }) -}
-1b2bee0d01174449705972bce77f6c15
-  $wendGame ::
-    GHC.Types.Char
-    -> [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> GHC.Prim.State# GHC.Prim.RealWorld
-    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 3, Strictness: <L,U(U)><L,U><S,U>, Inline: [0],
-     Unfolding: (\ (w :: GHC.Types.Char)
-                   (w1 :: [(GHC.Types.Char, System.Console.ANSI.Common.Color)])
-                   (w2 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 case Lib.endGame15 w2 of ds1 { (#,#) ipv ipv1 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        Lib.endGame14
-                        GHC.Types.False
-                        ipv of ds2 { (#,#) ipv2 ipv3 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        Lib.endGame9
-                        GHC.Types.False
-                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
-                 let {
-                   c :: GHC.Types.Char
-                        -> GHC.Types.IO ()
-                        -> GHC.Prim.State# GHC.Prim.RealWorld
-                        -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-                     {- Arity: 3, Strictness: <L,U(U)><L,1*C1(U(U,U))><S,U>,
-                        Unfolding: InlineRule (3, True, False)
-                                   (\ (x :: GHC.Types.Char)
-                                      (eta :: GHC.Types.IO ())[OneShot]
-                                      (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                                    case Lib.endGame4 w1 x eta1 of ds4 { (#,#) ipv6 ipv7 ->
-                                    eta `cast` (GHC.Types.N:IO[0] <()>_R) ipv6 }) -}
-                   = \ (x :: GHC.Types.Char)
-                       (eta :: GHC.Types.IO ())[OneShot]
-                       (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                     case Lib.endGame4 w1 x eta1 of ds4 { (#,#) ipv6 ipv7 ->
-                     eta `cast` (GHC.Types.N:IO[0] <()>_R) ipv6 }
-                 } in
-                 case (GHC.CString.unpackFoldrCString#
-                         @ (GHC.Types.IO ())
-                         "player "#
-                         c `cast`
-                         (<GHC.Types.Char>_R
-                          ->_R <GHC.Types.IO ()>_R
-                          ->_R Sym (GHC.Types.N:IO[0] <()>_R))
-                         (\ (eta :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                          case Lib.endGame4 w1 w eta of ds4 { (#,#) ipv6 ipv7 ->
-                          (GHC.CString.unpackFoldrCString#
-                             @ (GHC.Types.IO ())
-                             "\n"#
-                             c `cast`
-                             (<GHC.Types.Char>_R
-                              ->_R <GHC.Types.IO ()>_R
-                              ->_R Sym (GHC.Types.N:IO[0] <()>_R))
-                             Lib.endGame3 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)))
-                            `cast`
-                          (GHC.Types.N:IO[0] <()>_R)
-                            ipv6 })
-                           `cast`
-                         (Sym (GHC.Types.N:IO[0] <()>_R)))
-                        `cast`
-                      (GHC.Types.N:IO[0] <()>_R)
-                        ipv4 of ds4 { (#,#) ipv6 ipv7 ->
-                 GHC.IO.Handle.Text.hPutStr2
-                   GHC.IO.Handle.FD.stdout
-                   Lib.endGame2
-                   GHC.Types.False
-                   ipv6 } } } }) -}
-91cddbcd19edd2a6879351afb92c150f
+7f3ad765e1dc53fd0e2c885971a5317a
   $wfindWinner ::
     Data.Set.Base.Set (GHC.Types.Int, GHC.Types.Char)
     -> GHC.Prim.Int# -> GHC.Base.Maybe GHC.Types.Char
@@ -325,10 +206,10 @@ cb563a585057cfbbd11021c43fc70915
                         (GHC.Prim.<# x ww) of wild1 {
                    GHC.Types.False -> GHC.Base.Just @ GHC.Types.Char ww3
                    GHC.Types.True -> GHC.Base.Nothing @ GHC.Types.Char } } }) -}
-44c6705fac72dee855790b42b0bb7e5f
+579ee8529bb65dd40a50b9fb1c721b9d
   $wgo :: [GHC.Types.Char] -> GHC.Prim.Int# -> GHC.Prim.Int#
   {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>, Inline: [0] -}
-553d5521d6ed5cd3c3f01983ef41c152
+3412cd79746c4aec8ca418354d8ac40f
   $wgo5 ::
     GHC.Types.Int
     -> GHC.Types.Char
@@ -336,8 +217,8 @@ cb563a585057cfbbd11021c43fc70915
     -> (# GHC.Types.Int, GHC.Types.Char #)
   {- Arity: 3, HasNoCafRefs, Strictness: <L,U><L,U><S,1*U>,
      Inline: [0] -}
-71bda6899bf21cf4c295949ff272fe68
-  $wmakeGrid :: GHC.Types.Int -> GHC.Prim.Int# -> [[GHC.Types.Char]]
+443029d0afbcd255638f9918b1d9dca3
+  $wmkGrid :: GHC.Types.Int -> GHC.Prim.Int# -> [[GHC.Types.Char]]
   {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U(U)><S,U>,
      Inline: [0],
      Unfolding: (\ (w :: GHC.Types.Int) (ww :: GHC.Prim.Int#) ->
@@ -356,7 +237,7 @@ cb563a585057cfbbd11021c43fc70915
                             GHC.Types.True -> Lib.$wxs1 y } }
                       } in
                       let {
-                        lvl21 :: [[GHC.Types.Char]]
+                        lvl10 :: [[GHC.Types.Char]]
                         = GHC.Types.:
                             @ [GHC.Types.Char]
                             x
@@ -369,30 +250,19 @@ cb563a585057cfbbd11021c43fc70915
                           case ww1 of ds1 {
                             DEFAULT
                             -> GHC.Types.: @ [GHC.Types.Char] x ($wxs3 (GHC.Prim.-# ds1 1#))
-                            1# -> lvl21 }
+                            1# -> lvl10 }
                       } in
                       $wxs3 ww }) -}
-00fee332cf3dd45e0830208bbb3c218d
-  $wpoly_go1 ::
-    GHC.Prim.Int#
-    -> Data.Map.Base.Map GHC.Types.Char a
-    -> [(GHC.Types.Char, a)]
-    -> Data.Map.Base.Map GHC.Types.Char a
-  {- Arity: 3, Strictness: <L,U><S,1*U><S,1*U>, Inline: [0] -}
-cff9e9193023e0a0d14fdf5921779458
-  $wpoly_go10 ::
-    GHC.Prim.Char# -> Data.Map.Base.Map GHC.Types.Char a -> a
-  {- Arity: 2, Strictness: <S,U><S,1*U>, Inline: [0] -}
-902412ef9b1dfe3af0ed77136ab9da39
+6827255c24c25a2c7570606f7adaa63a
   $wxs :: GHC.Prim.Int# -> [GHC.Types.Char]
   {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
-fa75658e4a3a80e64d38534d9246b4af
+209e79e4c30bb9945197eb198b40f712
   $wxs1 :: GHC.Prim.Int# -> [GHC.Types.Char]
   {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
-9ee893d2abfa8b50561ec7fb102e2a7f
-  concatGrid :: [GHC.Base.String] -> GHC.Base.String
+08c4cdb1132618fa6d9cc55b3d6365fa
+  concatGrid :: Types.Grid -> GHC.Base.String
   {- Arity: 1, Strictness: <S,U>,
-     Unfolding: (\ (grid :: [GHC.Base.String]) ->
+     Unfolding: (\ (grid :: Types.Grid) ->
                  case GHC.Base.++
                         @ [GHC.Types.Char]
                         (Data.OldList.transpose @ GHC.Types.Char grid)
@@ -453,89 +323,140 @@ fa75658e4a3a80e64d38534d9246b4af
                            @ [GHC.Types.Char]
                            Lib.concatGrid1
                            xs1) }) -}
-f9551e9c6c1e1816f37355aaf50e27fd
+e8d0fae3378765309a76a54ba2534e00
   concatGrid1 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "\n"#) -}
-1ffd3518c81dccf95733c5bf6fd6e0ce
+92a660c09de27d74940c33b57a547741
   concatGrid2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.List.filter
                    @ GHC.Types.Char
                    GHC.Unicode.isAlphaNum
                    (GHC.Types.[] @ GHC.Types.Char)) -}
-9dbaa193cc179c64fe33caec42bca0ce
+b16ad668f9faeb896998232fec3cd305
   concatGrid3 :: GHC.Types.Char
   {- HasNoCafRefs, Unfolding: (GHC.Types.C# ' '#) -}
-d373fff783467ceb79be664f6250bff6
+e20f7254c7e841e5e5135f7209e3aa2d
   dropToken ::
-    GHC.Types.Char
-    -> GHC.Types.Int -> [GHC.Base.String] -> [GHC.Base.String]
+    GHC.Types.Char -> GHC.Types.Int -> Types.Grid -> Types.Grid
   {- Arity: 3, Strictness: <L,U><S(S),1*U(U)><L,U>,
      Inline: INLINE[0],
      Unfolding: InlineRule (3, True, False)
                 (\ (w :: GHC.Types.Char)
                    (w1 :: GHC.Types.Int)
-                   (w2 :: [GHC.Base.String]) ->
+                   (w2 :: Types.Grid) ->
                  case w1 of ww { GHC.Types.I# ww1 -> Lib.$wdropToken w ww1 w2 }) -}
-e07219fd5e219ceddf28ed6d7a96c950
-  endGame ::
-    GHC.Types.Char
-    -> [GHC.Base.String]
-    -> [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> GHC.Types.IO ()
-  {- Arity: 4, Strictness: <L,U(U)><L,A><L,U><S,U>,
+eeff29bbe3932e8111672a1630da3940
+  endGame :: GHC.Types.Char -> Types.Game -> GHC.Types.IO ()
+  {- Arity: 3, Strictness: <L,U(U)><L,1*U(1*U,A,A)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.endGame1
                   `cast`
                 (<GHC.Types.Char>_R
-                 ->_R <[GHC.Base.String]>_R
-                 ->_R <[(GHC.Types.Char, System.Console.ANSI.Common.Color)]>_R
+                 ->_R <Types.Game>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-47da4d8a0c81566cf3de5245e9f953e5
+16a17377b8d492f985251a67fd8140a7
   endGame1 ::
     GHC.Types.Char
-    -> [GHC.Base.String]
-    -> [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
+    -> Types.Game
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <L,U(U)><L,A><L,U><S,U>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (4, True, True)
-                (\ (w :: GHC.Types.Char)
-                   (w1 :: [GHC.Base.String])
-                   (w2 :: [(GHC.Types.Char, System.Console.ANSI.Common.Color)])
-                   (w3 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 Lib.$wendGame w w2 w3) -}
-3996621d3c9235199786e9fcf3147851
+  {- Arity: 3, Strictness: <L,U(U)><L,1*U(1*U,A,A)><S,U>,
+     Unfolding: (\ (token :: GHC.Types.Char)
+                   (game :: Types.Game)
+                   (eta :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 case Lib.endGame15 eta of ds1 { (#,#) ipv ipv1 ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        Lib.endGame14
+                        GHC.Types.False
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        Lib.endGame9
+                        GHC.Types.False
+                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                 let {
+                   players :: [Types.Player]
+                   = case game of wild { Types.Game ds4 ds5 ds6 -> ds4 }
+                 } in
+                 let {
+                   c :: GHC.Types.Char
+                        -> GHC.Types.IO ()
+                        -> GHC.Prim.State# GHC.Prim.RealWorld
+                        -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                     {- Arity: 3, Strictness: <L,U(U)><L,1*C1(U(U,U))><S,U>,
+                        Unfolding: InlineRule (3, True, False)
+                                   (\ (x :: GHC.Types.Char)
+                                      (eta1 :: GHC.Types.IO ())[OneShot]
+                                      (eta2 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                                    case Lib.endGame4 players x eta2 of ds4 { (#,#) ipv6 ipv7 ->
+                                    eta1 `cast` (GHC.Types.N:IO[0] <()>_R) ipv6 }) -}
+                   = \ (x :: GHC.Types.Char)
+                       (eta1 :: GHC.Types.IO ())[OneShot]
+                       (eta2 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                     case Lib.endGame4 players x eta2 of ds4 { (#,#) ipv6 ipv7 ->
+                     eta1 `cast` (GHC.Types.N:IO[0] <()>_R) ipv6 }
+                 } in
+                 case (GHC.CString.unpackFoldrCString#
+                         @ (GHC.Types.IO ())
+                         "player "#
+                         c `cast`
+                         (<GHC.Types.Char>_R
+                          ->_R <GHC.Types.IO ()>_R
+                          ->_R Sym (GHC.Types.N:IO[0] <()>_R))
+                         (\ (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                          case Lib.endGame4 players token eta1 of ds4 { (#,#) ipv6 ipv7 ->
+                          (GHC.CString.unpackFoldrCString#
+                             @ (GHC.Types.IO ())
+                             "\n"#
+                             c `cast`
+                             (<GHC.Types.Char>_R
+                              ->_R <GHC.Types.IO ()>_R
+                              ->_R Sym (GHC.Types.N:IO[0] <()>_R))
+                             Lib.endGame3 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)))
+                            `cast`
+                          (GHC.Types.N:IO[0] <()>_R)
+                            ipv6 })
+                           `cast`
+                         (Sym (GHC.Types.N:IO[0] <()>_R)))
+                        `cast`
+                      (GHC.Types.N:IO[0] <()>_R)
+                        ipv4 of ds4 { (#,#) ipv6 ipv7 ->
+                 GHC.IO.Handle.Text.hPutStr2
+                   GHC.IO.Handle.FD.stdout
+                   Lib.endGame2
+                   GHC.Types.False
+                   ipv6 } } } }) -}
+1abcc9b42643a7d0847180643282a8b4
   endGame10 :: [GHC.Types.Int]
   {- Unfolding: (GHC.Base.map
                    @ System.Console.ANSI.Common.SGR
                    @ GHC.Types.Int
                    System.Console.ANSI.Unix.sgrToCode
                    Lib.endGame11) -}
-936d8eb4d04642965ba79a86b72def4e
+f579cc1c8343f2c6b856df406477b347
   endGame11 :: [System.Console.ANSI.Common.SGR]
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ System.Console.ANSI.Common.SGR
                    Lib.endGame13
                    Lib.endGame12) -}
-0152f955938b801e709dea54cb0fe230
+544216ef4e8b7739045612a280c94d72
   endGame12 :: [System.Console.ANSI.Common.SGR]
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ System.Console.ANSI.Common.SGR
                    Lib.endGame8
                    (GHC.Types.[] @ System.Console.ANSI.Common.SGR)) -}
-b21cda60705cb3ab82ca277b5d2bc55d
+85f76829cf0d42f5322f424940ddeeb1
   endGame13 :: System.Console.ANSI.Common.SGR
   {- HasNoCafRefs, Strictness: m4,
      Unfolding: (System.Console.ANSI.Common.SetUnderlining
                    System.Console.ANSI.Common.SingleUnderline) -}
-a2d2d33c8bfd8adada917643c0004814
+bbced7d32e612e1828f7dc7476ebe2db
   endGame14 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString#
-                   " ... the winner is "#) -}
-fdcbc317366e730f29f492d05b5c6e8a
+  {- Unfolding: (GHC.CString.unpackCString# " ... winner is "#) -}
+015f1c173abbecb8610a6317ee9bbf6f
   endGame15 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -556,59 +477,58 @@ fdcbc317366e730f29f492d05b5c6e8a
                    Lib.endGame2
                    GHC.Types.False
                    ipv2 } }) -}
-d74adcb038ca1a6dc3efd24b2d82bc27
+febead638c7b323f2ac855b692014992
   endGame16 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Game Over!"#) -}
-a853e308c1cc62f62a6c5d2c51019789
+968655fb4d418c1495f2ca3d7c9f2add
   endGame17 :: GHC.Base.String
   {- Unfolding: (System.Console.ANSI.Unix.csi
                    Lib.endGame18
                    System.Console.ANSI.Unix.setSGRCode1) -}
-b1276206a8e9831ab4d6233d50fb35e4
+eaddbfb2a40d56b49ca1a5fcc3efa147
   endGame18 :: [GHC.Types.Int]
   {- Unfolding: (GHC.Types.:
                    @ GHC.Types.Int
                    Lib.endGame7
                    Lib.endGame19) -}
-9828052c92e091eba15580339d4c3a91
+31f1f3462f4bfd20100903a8c5b93aff
   endGame19 :: [GHC.Types.Int]
   {- Unfolding: (GHC.Types.:
                    @ GHC.Types.Int
                    Lib.endGame20
                    (GHC.Types.[] @ GHC.Types.Int)) -}
-56f397d690fe65de96bfa9c548855a4c
+0c83c14ac56dd3837b72f720bbe2abc4
   endGame2 :: GHC.Base.String
   {- Unfolding: (System.Console.ANSI.Unix.csi
                    (GHC.Types.[] @ GHC.Types.Int)
                    System.Console.ANSI.Unix.setSGRCode1) -}
-2119535727621ea66fe5d0d8a6c937d9
+4613eaffa53e1df752bfa84a928027ba
   endGame20 :: GHC.Types.Int
   {- Unfolding: (case System.Console.ANSI.Unix.$wsgrToCode
                         Lib.endGame21 of ww { DEFAULT ->
                  GHC.Types.I# ww }) -}
-9c23285e632a4c32a9b42ce9a6df57bf
+1c01bf608554f68c9f0e4f1312d43f16
   endGame21 :: System.Console.ANSI.Common.SGR
   {- HasNoCafRefs,
      Unfolding: (System.Console.ANSI.Common.SetColor
                    System.Console.ANSI.Common.Foreground
-                   System.Console.ANSI.Common.Dull
-                   System.Console.ANSI.Common.Green) -}
-721c6c7e2a4dfa5d59ae1347c200420f
+                   System.Console.ANSI.Common.Vivid
+                   System.Console.ANSI.Common.Blue) -}
+52406e9e7c71dc923864d02f42a853a0
   endGame3 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 1, HasNoCafRefs,
      Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  (# s, GHC.Tuple.() #)) -}
-73c38bc0de7915ffceb37dc169c4be64
+51599e287eca15d592946cc75b42575a
   endGame4 ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
+    [Types.Player]
     -> GHC.Types.Char
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 3, Strictness: <L,U><L,U(U)><S,U>,
-     Unfolding: (\ (players :: [(GHC.Types.Char,
-                                 System.Console.ANSI.Common.Color)])
+     Unfolding: (\ (players :: [Types.Player])
                    (x :: GHC.Types.Char)
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case GHC.IO.Handle.Text.hPutStr2
@@ -621,11 +541,9 @@ b1276206a8e9831ab4d6233d50fb35e4
                         GHC.Classes.$fEqChar
                         x
                         (GHC.Base.map
-                           @ (GHC.Types.Char, System.Console.ANSI.Common.Color)
+                           @ Types.Player
                            @ GHC.Types.Char
-                           (Data.Tuple.fst
-                              @ GHC.Types.Char
-                              @ System.Console.ANSI.Common.Color)
+                           Types.token
                            players) of wild {
                    GHC.Types.False
                    -> GHC.IO.Handle.Text.hPutChar1 GHC.IO.Handle.FD.stdout x ipv
@@ -639,13 +557,31 @@ b1276206a8e9831ab4d6233d50fb35e4
                                            (System.Console.ANSI.Common.SetColor
                                               System.Console.ANSI.Common.Foreground
                                               System.Console.ANSI.Common.Vivid
-                                              (case x of ww { GHC.Types.C# ww1 ->
-                                               Lib.$wpoly_go10
-                                                 @ System.Console.ANSI.Common.Color
-                                                 ww1
-                                                 (Lib.$sfromList
-                                                    @ System.Console.ANSI.Common.Color
-                                                    players) })) of ww { DEFAULT ->
+                                              (letrec {
+                                                 $wgo1 :: [Types.Player]
+                                                          -> (# GHC.Types.Char,
+                                                                System.Console.ANSI.Common.Color #)
+                                                   {- Arity: 1, Strictness: <S,1*U>, Inline: [0] -}
+                                                 = \ (w :: [Types.Player]) ->
+                                                   case w of wild1 {
+                                                     []
+                                                     -> case GHC.List.badHead
+                                                        ret_ty (# GHC.Types.Char,
+                                                                  System.Console.ANSI.Common.Color #)
+                                                        of {}
+                                                     : y ys
+                                                     -> case y of wild2 { Types.Player ds2 ds3 ->
+                                                        case ds2 of wild3 { GHC.Types.C# x1 ->
+                                                        case x of wild4 { GHC.Types.C# y1 ->
+                                                        case GHC.Prim.tagToEnum#
+                                                               @ GHC.Types.Bool
+                                                               (GHC.Prim.eqChar# x1 y1) of wild5 {
+                                                          GHC.Types.False -> $wgo1 ys
+                                                          GHC.Types.True
+                                                          -> (# wild3, ds3 #) } } } } }
+                                               } in
+                                               case $wgo1 players of ww { (#,#) ww1 ww2 ->
+                                               ww2 })) of ww { DEFAULT ->
                                     GHC.Types.I# ww })
                                    (GHC.Types.[] @ GHC.Types.Int))
                                 System.Console.ANSI.Unix.setSGRCode1)
@@ -661,33 +597,33 @@ b1276206a8e9831ab4d6233d50fb35e4
                         Lib.endGame2
                         GHC.Types.False
                         ipv4 } } } } }) -}
-03dc2ef1af79d8d0c0dad1a08d135b0c
+8a7bd2b89770ab7afb7fbd8c19fe0057
   endGame5 :: GHC.Base.String
   {- Unfolding: (System.Console.ANSI.Unix.csi
                    Lib.endGame6
                    System.Console.ANSI.Unix.setSGRCode1) -}
-c89b1a68ecaabc74176403fed6b3bd0e
+5db6b581df3d0f26ac5f88f574059cac
   endGame6 :: [GHC.Types.Int]
   {- Unfolding: (GHC.Types.:
                    @ GHC.Types.Int
                    Lib.endGame7
                    (GHC.Types.[] @ GHC.Types.Int)) -}
-c3573454424ed4196bb5169298f316f6
+ca60a24db27cab2ed36869e94308d3da
   endGame7 :: GHC.Types.Int
   {- Unfolding: (case System.Console.ANSI.Unix.$wsgrToCode
                         Lib.endGame8 of ww { DEFAULT ->
                  GHC.Types.I# ww }) -}
-b3810934420fedcf420e18a3035bdb7f
+a943c95705256a06374f81b615c00c73
   endGame8 :: System.Console.ANSI.Common.SGR
   {- HasNoCafRefs, Strictness: m2,
      Unfolding: (System.Console.ANSI.Common.SetConsoleIntensity
                    System.Console.ANSI.Common.BoldIntensity) -}
-9006b018f0d9d2ddcb8a1f3c121d426e
+f11e2b4a38cf5c95f95f4dceb5e303cc
   endGame9 :: GHC.Base.String
   {- Unfolding: (System.Console.ANSI.Unix.csi
                    Lib.endGame10
                    System.Console.ANSI.Unix.setSGRCode1) -}
-d876a1e166205b8360ef37a32dcfc1c0
+d94a323d75edc1ef179f6d9fbc009856
   findWinner ::
     Data.Set.Base.Set (GHC.Types.Int, GHC.Types.Char)
     -> GHC.Types.Int -> GHC.Base.Maybe GHC.Types.Char
@@ -697,16 +633,16 @@ d876a1e166205b8360ef37a32dcfc1c0
                 (\ (w :: Data.Set.Base.Set (GHC.Types.Int, GHC.Types.Char))
                    (w1 :: GHC.Types.Int) ->
                  case w1 of ww { GHC.Types.I# ww1 -> Lib.$wfindWinner w ww1 }) -}
-d090dc8cc20753dfb3184f6e6e4f032d
+d4c3650c93459b7c79270d43df766a59
   findWinner1 :: GHC.Types.Char
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.C# 'X'#) -}
-f71fb220f12aa1521724eb9d13666cb5
+058159420cec6782cc219f561efdecb4
   findWinner2 :: GHC.Types.Int
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
-4e22b3e0f4927cb177ffcc834bed30e9
+6a190ca1427198f0c067b6a6a672647a
   getChoiceOf ::
-    [GHC.Base.String]
-    -> (GHC.Types.Char, System.Console.ANSI.Common.Color)
+    Types.Grid
+    -> Types.Player
     -> GHC.Types.Int
     -> GHC.Types.Int
     -> GHC.Types.IO GHC.Types.Int
@@ -715,68 +651,59 @@ f71fb220f12aa1521724eb9d13666cb5
      Unfolding: InlineRule (0, True, True)
                 Lib.getChoiceOf1
                   `cast`
-                (<[GHC.Base.String]>_R
-                 ->_R <(GHC.Types.Char, System.Console.ANSI.Common.Color)>_R
+                (<Types.Grid>_R
+                 ->_R <Types.Player>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <GHC.Types.Int>_R)) -}
-d3b87c09acce166b10e699cac19df8b1
+dd9ae6a88cb12919ae1ce4cb256df1b5
   getChoiceOf1 ::
-    [GHC.Base.String]
-    -> (GHC.Types.Char, System.Console.ANSI.Common.Color)
+    Types.Grid
+    -> Types.Player
     -> GHC.Types.Int
     -> GHC.Types.Int
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Types.Int #)
   {- Arity: 5,
      Strictness: <L,U><L,U(U(U),U)><L,1*U(U)><L,1*U(U)><S,U> -}
-966bca16a9dda912d56753f05ae944d8
-  makeGrid :: GHC.Types.Int -> GHC.Types.Int -> [GHC.Base.String]
+c2bb20251523c407a12c1fbdd354fc2b
+  mkGrid :: GHC.Types.Int -> GHC.Types.Int -> Types.Grid
   {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U(U)><S(S),1*U(U)>,
      Inline: INLINE[0],
      Unfolding: InlineRule (2, True, False)
                 (\ (w :: GHC.Types.Int) (w1 :: GHC.Types.Int) ->
-                 case w1 of ww { GHC.Types.I# ww1 -> Lib.$wmakeGrid w ww1 }) -}
-77a068b1476183eba66519bcf3ac5dcd
-  playWith ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> [GHC.Base.String] -> GHC.Types.Int -> GHC.Types.IO ()
-  {- Arity: 4, Strictness: <L,U><L,U><L,U(U)><S,U>,
+                 case w1 of ww { GHC.Types.I# ww1 -> Lib.$wmkGrid w ww1 }) -}
+a52b69b9ea2f5d2442f99b7a8626d20f
+  playWith :: Types.Game -> GHC.Types.IO ()
+  {- Arity: 2, Strictness: <L,U(U,U,U(U))><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.playWith1
                   `cast`
-                (<[(GHC.Types.Char, System.Console.ANSI.Common.Color)]>_R
-                 ->_R <[GHC.Base.String]>_R
-                 ->_R <GHC.Types.Int>_R
-                 ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-8b0b1d9c8bd8874f902f479306852276
+                (<Types.Game>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
+5c6dabf265ebf9b7cc129a7bf8b8edb6
   playWith1 ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> [GHC.Base.String]
-    -> GHC.Types.Int
+    Types.Game
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <L,U><L,U><L,U(U)><S,U> -}
-6dd2eb1cbd313d3afc4a1cdbd598e81f
+  {- Arity: 2, Strictness: <L,U(U,U,U(U))><S,U> -}
+fe6b7646598b803b9198936b2fcf4e7c
   printAllToken ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> GHC.Base.String -> GHC.Types.IO ()
+    [Types.Player] -> GHC.Base.String -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><S,1*U><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.printAllToken1
                   `cast`
-                (<[(GHC.Types.Char, System.Console.ANSI.Common.Color)]>_R
+                (<[Types.Player]>_R
                  ->_R <[GHC.Types.Char]>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-ca270266befe16ed6d1947ee3329a2da
+5878dcab1555f89a3abc005336faf442
   printAllToken1 ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
+    [Types.Player]
     -> [GHC.Types.Char]
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 3, Strictness: <L,U><S,1*U><S,U>,
-     Unfolding: (\ (players :: [(GHC.Types.Char,
-                                 System.Console.ANSI.Common.Color)])
+     Unfolding: (\ (players :: [Types.Player])
                    (eta :: [GHC.Types.Char])
                    (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  letrec {
@@ -793,40 +720,155 @@ ca270266befe16ed6d1947ee3329a2da
                           go1 ys ipv } }
                  } in
                  go1 eta eta1) -}
-71071620e96dcbfa8b3589a167d3556e
-  printToken ::
-    [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> GHC.Types.Char -> GHC.Types.IO ()
+3e277aa6ecca98bd3576c71b71a96cfc
+  printToken :: [Types.Player] -> GHC.Types.Char -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><L,U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.endGame4
                   `cast`
-                (<[(GHC.Types.Char, System.Console.ANSI.Common.Color)]>_R
+                (<[Types.Player]>_R
                  ->_R <GHC.Types.Char>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-458c7fa83f1394653b81496c4a12c659
-  showGrid ::
-    [GHC.Base.String]
-    -> [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
-    -> GHC.Types.IO ()
-  {- Arity: 3, Strictness: <L,U><L,U><S,U>,
+770406c9af774a4a2a39acbab014f5ac
+  rollDice :: GHC.Types.IO GHC.Types.Int
+  {- Arity: 1, Strictness: <S,U>m,
+     Unfolding: InlineRule (0, True, True)
+                Lib.rollDice1 `cast` (Sym (GHC.Types.N:IO[0] <GHC.Types.Int>_R)) -}
+ebec3f9e8ff10818532e02be34351665
+  rollDice1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Types.Int #)
+  {- Arity: 1, Strictness: <S,U>m,
+     Unfolding: (\ (eta :: GHC.Prim.State#
+                             GHC.Prim.RealWorld)[OneShot] ->
+                 case System.Random.theStdGen
+                        `cast`
+                      (GHC.IORef.N:IORef[0] <System.Random.StdGen>_N) of wild { GHC.STRef.STRef r# ->
+                 case GHC.Prim.atomicModifyMutVar#
+                        @ GHC.Prim.RealWorld
+                        @ System.Random.StdGen
+                        @ (System.Random.StdGen, GHC.Types.Int)
+                        @ GHC.Types.Int
+                        r#
+                        Lib.rollDice2
+                        eta of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of b1 { GHC.Types.I# ipv2 -> ds1 } } }) -}
+2857e3a819bbce374163cae146d04c39
+  rollDice2 ::
+    System.Random.StdGen -> (System.Random.StdGen, GHC.Types.Int)
+  {- Arity: 1,
+     Unfolding: (\ (a1 :: System.Random.StdGen) ->
+                 case System.Random.$wrandomIvalInteger
+                        @ System.Random.StdGen
+                        @ GHC.Types.Int
+                        System.Random.$fRandomGenStdGen
+                        GHC.Num.$fNumInt
+                        Lib.rollDice_w2
+                        Lib.rollDice_w1
+                        a1 of ww2 { (#,#) ww3 ww4 ->
+                 case ww4 of a'1 { System.Random.StdGen ipv ipv1 ->
+                 (a'1, ww3) } }) -}
+0a21220b4378760cdd24bbe132d7f6d3
+  rollDice3 :: [[System.Console.ANSI.Common.Color]]
+  {- Unfolding: (GHC.Types.:
+                   @ [System.Console.ANSI.Common.Color]
+                   Lib.rollDice_xs0
+                   Lib.rollDice4) -}
+fe238c91cf810c292320eb35b4ceb796
+  rollDice4 :: [[System.Console.ANSI.Common.Color]]
+  {- Unfolding: (Data.OldList.permutations1
+                   @ System.Console.ANSI.Common.Color
+                   Lib.rollDice_xs0
+                   (GHC.Types.[] @ System.Console.ANSI.Common.Color)) -}
+a4b307f2800eb7c40fd52e80c115bd61
+  rollDice5 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Cyan
+                   Lib.rollDice6) -}
+4e9193698a2530b4b84671f7b32948e0
+  rollDice6 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Blue
+                   Lib.rollDice7) -}
+f75c80f906238c027a40f729b6949aee
+  rollDice7 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Green
+                   Lib.rollDice8) -}
+f41708ed8edceaffefd533d8d3c6391b
+  rollDice8 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Magenta
+                   Lib.rollDice9) -}
+c5835055d5fe07247b05c9fa02317b72
+  rollDice9 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Red
+                   (GHC.Types.[] @ System.Console.ANSI.Common.Color)) -}
+f27e0db6c680602f01f575838e90b2e4
+  rollDice_w1 :: GHC.Integer.Type.Integer
+  {- Unfolding: (case Lib.rollDice_ww2 of wild { GHC.Types.I# i ->
+                 GHC.Integer.Type.smallInteger i }) -}
+37d4cec766ffdb89e8150876aafc311e
+  rollDice_w2 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (1) -}
+15c6323a8b348acb918d16738407e2b6
+  rollDice_ww2 :: GHC.Types.Int
+  {- Unfolding: (case GHC.List.$wlenAcc
+                        @ [System.Console.ANSI.Common.Color]
+                        Lib.rollDice3
+                        0# of ww2 { DEFAULT ->
+                 GHC.Types.I# ww2 }) -}
+6e118d7ae7c47377b63f05b807d058a2
+  rollDice_xs0 :: [System.Console.ANSI.Common.Color]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.Yellow
+                   Lib.rollDice5) -}
+495677e786c73450cbc0f0fb6636f9a8
+  showGrid :: Types.Game -> GHC.Types.IO ()
+  {- Arity: 2, Strictness: <L,U(U,U,A)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Lib.showGrid1
                   `cast`
-                (<[GHC.Base.String]>_R
-                 ->_R <[(GHC.Types.Char, System.Console.ANSI.Common.Color)]>_R
-                 ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-b6fa44ff8a3b6c1e5924752d0d6b3248
+                (<Types.Game>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
+d35571f7758a32b102a7be302cfe6d9a
   showGrid1 ::
-    [GHC.Base.String]
-    -> [(GHC.Types.Char, System.Console.ANSI.Common.Color)]
+    Types.Game
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 3, Strictness: <L,U><L,U><S,U> -}
-"SPEC/Lib fromList @ Char _" [ALWAYS] forall @ a
-                                             ($dOrd :: GHC.Classes.Ord GHC.Types.Char)
-  Data.Map.Base.fromList @ GHC.Types.Char @ a $dOrd
-  = Lib.$sfromList @ a
+  {- Arity: 2, Strictness: <L,U(U,U,A)><S,U> -}
+13c2206544671d49f6aec10539ae8b2a
+  theme :: GHC.Types.Int -> [System.Console.ANSI.Common.Color]
+  {- Arity: 1, Strictness: <S(S),1*U(U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (x :: GHC.Types.Int) ->
+                 GHC.List.!! @ [System.Console.ANSI.Common.Color] Lib.theme1 x) -}
+3c178985062552909778b97cbb6ccb98
+  theme1 :: [[System.Console.ANSI.Common.Color]]
+  {- Unfolding: (Data.OldList.nubBy
+                   @ [System.Console.ANSI.Common.Color]
+                   Lib.theme2
+                   Lib.rollDice3) -}
+b7b809845583d2332156ff4d623f54c7
+  theme2 ::
+    [System.Console.ANSI.Common.Color]
+    -> [System.Console.ANSI.Common.Color] -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs,
+     Unfolding: (GHC.Classes.$fEq[]_$c==
+                   @ System.Console.ANSI.Common.Color
+                   System.Console.ANSI.Common.$fEqColor) -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

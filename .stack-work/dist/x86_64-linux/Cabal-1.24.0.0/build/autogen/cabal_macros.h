@@ -28,6 +28,13 @@
   (major1) == 0 && (major2) <  5 || \
   (major1) == 0 && (major2) == 5 && (minor) <= 7)
 
+/* package random-1.1 */
+#define VERSION_random "1.1"
+#define MIN_VERSION_random(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  1 || \
+  (major1) == 1 && (major2) == 1 && (minor) <= 0)
+
 /* package hspec-2.2.3 */
 #define VERSION_hspec "2.2.3"
 #define MIN_VERSION_hspec(major1,major2,minor) (\
@@ -147,7 +154,7 @@
   (major1) == 2 && (major2) <  25 || \
   (major1) == 2 && (major2) == 25 && (minor) <= 0)
 
-#define CURRENT_COMPONENT_ID "connect4-0.1.0.1-WKoGruS9yd1l9XgtChq8q"
+#define CURRENT_COMPONENT_ID "connect4-0.1.0.1-2fMdAgEIDS51w47GvFtft7"
 
-#define CURRENT_PACKAGE_KEY "connect4-0.1.0.1-WKoGruS9yd1l9XgtChq8q"
+#define CURRENT_PACKAGE_KEY "connect4-0.1.0.1-2fMdAgEIDS51w47GvFtft7"
 

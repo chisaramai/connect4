@@ -12,17 +12,28 @@ import Data.List
 import Data.Set
 import Types
 import qualified Data.Set as Set
-  
+import Control.Concurrent
+
+{- | scans the hole grid
+-}
 scan :: Grid -> Int -> Set.Set(Int,Char)
 scan grid winSequL = Data.Set.filter ((/= '.') . snd) (unions [scanRows grid,  scanCols grid, scanDiags grid winSequL])
 
+
+{- | scans all rows of the grid
+-}
 scanRows :: Grid -> Set.Set(Int,Char)
 scanRows grid = scanCols (transpose grid)
 
+
+{- | scans all columns of the grid
+-}
 scanCols :: Grid -> Set.Set(Int,Char)
 scanCols = Data.Set.unions . Data.List.map scanIt
-{- |
-scans all diagonals of the grid
+
+
+{- | scans all diagonals of the grid
+
 >>> scanDiags ["OOX","OXO","XOO"] 1
 fromList [(1,'O'),(1,'X'),(2,'O'),(2,'X'),(3,'X')]
 -}
@@ -39,16 +50,22 @@ scanDiags grid winSequL
                                                                         ]  -- this is costly to compute 
                                        | size <  winSequL  = Set.empty
                                      where size = length grid
-{- |
-scans only the largest diagonals of the grid
+
+
+
+{- |  scans only the largest diagonals of the grid
+
 >>> scanX ["OOX","OXO","XOO"]
 fromList [(1,'O'),(1,'X'),(3,'X')]
 -}
 scanX :: Grid -> Set.Set (Int, Char)
 scanX grid = Data.Set.union (scanIt (diag grid)) (scanIt (diag (reverse grid)))
 
+
+
 {- | scans one string, which is a column or a row in this case, for the longest connected sequence of tokens
      and returns this kind of tupel: (length of the sequence, the token with the longest character)
+
 >>> scanIt "..XXXOOOO"
 fromList [(2,'.'),(3,'X'),(4,'O')]
 -}
@@ -57,6 +74,15 @@ scanIt xs =        let lengths = Data.List.map length (group xs)
                        heads   = Data.List.map   head (group xs)
                    in  Set.fromList (zip lengths heads)
 
+
+
+{- | extracts the diagonal of a Grid
+       if the Grid is rectangular the lowest row is ignored
+       $idea is stolen from stackoverflow$
+
+>>> diag ["ABC","CDE","FGH","IJK"]
+"ADH"
+-}
 diag :: Grid -> String
 diag x = let diagonal = zipWith (!!) x [0..(length (head x) - 1)]
          in  diagonal
