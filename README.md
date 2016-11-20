@@ -6,7 +6,7 @@
 
 -->
 
-By [Sarah K. Eydel](author URL goes here).
+By [Sarah K. Eydel](https://github.com/chisaramai).
 
 
 ## Description
@@ -72,7 +72,6 @@ Game Over! ... winner is player X
 If you discover any bugs, feel free to create an issue on GitHub fork and
 send us a pull request.
 
-[Issues List](Github Issues List URL goes here).
 
 ## Authors
 
